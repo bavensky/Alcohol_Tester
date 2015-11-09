@@ -92,7 +92,7 @@ void printWarming()
 }
 
 int readAlcohol()
-{
+ {
 //Alcohol Sensor.
 // The MQ3 sensor produces an analog output signal between 0 and 1023.
 // BAC is expressed as the weight of ethanol, measured in grams per 210 liters of breath.
@@ -106,10 +106,14 @@ int readAlcohol()
 // @date: 06/08/2015
 
   int val1;
-  val1 = analogRead(analogPin); 
-  percentage = val1 / 1023.0;
-  bac = percentage * 0.21;
-  bac = bac*1000;
+  val1 = analogRead(analogPin);
+  if(val1 < 400)  val1 = 0;
+  if(val1 >= 401) {
+    val1= map(val1, 400, 1023, 0, 1023);
+    percentage = val1 / 1023.0;
+    bac = percentage * 0.21;
+    bac = bac*1000;
+  }
   return bac;
 }
 
